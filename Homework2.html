@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="demo">
+    <table border="1" cellspacing="0">
+        <thead>
+            <tr>
+                <th>商品序号</th>
+                <th>商品编号</th>
+                <th>商品名称</th>
+                <th>商品数量</th>
+                <th>商品单价</th>
+                <th>移出</th>
+            </tr>
+        </thead>
+        <tbody v-for="(item,index) in appleList" ker="index">
+            <tr>
+                <th>{{item.id}}</th>
+                <th>{{item.number}}</th>
+                <th>{{item.name}}</th>
+                <th><button @click="subtract(index)">-</button><input type="number"  v-model="item.count"><button @click="add(index)" @change="doChange(index)">+</button></th>
+                <th>{{item.price}}</th>
+                <th><a @click="del(index)">删除</a></th>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="6">总价为:<span>{{doTotalPrice}}</span>元</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<script>
+    new Vue({
+        el:"#demo",
+        data(){
+            return{
+                appleList:[
+                    {id:1,number:'0001',name:'iphone11',price:5499,count:1},
+                    {id:2,number:'0002',name:'iphone11 pro',price:8699,count:1},
+                    {id:3,number:'0003',name:'iphone11 pro max',price:9599,count:1}],
+            }
+        },
+        methods:{
+            subtract(index){
+                if(this.appleList[index].count > 1)
+                this.appleList[index].count-=1;
+                else alert('数量为1，不能再减');
+            },
+            add(index){
+                this.appleList[index].count+=1;
+            },
+            del(index){
+                this.appleList.splice(index,1);
+            },
+            doChange(index){
+                if(this.appleList[index].count < 1)
+
+                 alert('数量为1，不能再减');
+            }
+        },
+        computed:{
+            doTotalPrice(){
+                var totalPrice = 0;
+                for(var i = 0;i<this.appleList.length;i++){
+                    totalPrice += this.appleList[i].price * this.appleList[i].count;
+                }
+                return totalPrice;
+            }
+        }
+    })
+</script>
+</body>
+</html>
